@@ -15,12 +15,56 @@ public class MathController {
     public Double sum(@PathVariable("numberOne") String numberOne,
                       @PathVariable("numberTwo") String numberTwo
     ) throws Exception {
-        System.out.println(numberOne);
-        System.out.println(numberTwo);
         if(!isNumeric(numberOne) || !isNumeric(numberTwo))
             throw new UnsupportedOperationException("Please set a numeric value");
         return convertToDouble(numberOne) + convertToDouble(numberTwo);
     }
+
+    @RequestMapping("/sub/{numberOne}/{numberTwo}")
+    public Double sub(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo
+    ) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo))
+            throw new UnsupportedOperationException("Please set a numeric value");
+        return convertToDouble(numberOne) - convertToDouble(numberTwo);
+    }
+
+    @RequestMapping("/mult/{numberOne}/{numberTwo}")
+    public Double mult(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo
+    ) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo))
+            throw new UnsupportedOperationException("Please set a numeric value");
+        return convertToDouble(numberOne) * convertToDouble(numberTwo);
+    }
+
+    @RequestMapping("/div/{numberOne}/{numberTwo}")
+    public Double div(@PathVariable("numberOne") String numberOne,
+                       @PathVariable("numberTwo") String numberTwo
+    ) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo))
+            throw new UnsupportedOperationException("Please set a numeric value");
+        if(convertToDouble(numberTwo) == 0)
+            throw new UnsupportedOperationException("Invalid division by zero");
+        return convertToDouble(numberOne) / convertToDouble(numberTwo);
+    }
+
+    @RequestMapping("/mean/{numberOne}/{numberTwo}")
+    public Double mean(@PathVariable("numberOne") String numberOne,
+                      @PathVariable("numberTwo") String numberTwo
+    ) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo))
+            throw new UnsupportedOperationException("Please set a numeric value");
+        return (convertToDouble(numberOne) + convertToDouble(numberTwo)) / 2;
+    }
+
+    @RequestMapping("/sqrt/{number}")
+    public Double sqrt(@PathVariable("number") String number) throws Exception {
+        if(!isNumeric(number))
+            throw new UnsupportedOperationException("Please set a numeric value");
+        return Math.sqrt(convertToDouble(number));
+    }
+
 
     private Double convertToDouble(String strNumber) {
         if (strNumber == null || strNumber.isEmpty())
@@ -28,10 +72,6 @@ public class MathController {
         String number = strNumber.replace(",", ".");
         return Double.parseDouble(number);
     }
-
-    //http://localhost:8080/math/subtraction/3/5
-
-    //http://localhost:8080/math/division/3/5
 
     private boolean isNumeric(String strNumber){
         if (strNumber == null || strNumber.isEmpty()) return false;

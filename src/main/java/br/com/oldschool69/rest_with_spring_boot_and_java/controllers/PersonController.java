@@ -1,7 +1,7 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 
+import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonServices;
-import br.com.oldschool69.rest_with_spring_boot_and_java.model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class PersonController {
     @GetMapping(value = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person findById(@PathVariable("id") Long id){
+    public PersonDTO findById(@PathVariable("id") Long id){
         logger.info("Finding one Person");
         return service.findById(id);
     }
@@ -32,7 +32,7 @@ public class PersonController {
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<Person> findAll() {
+    public List<PersonDTO> findAll() {
         logger.info("Finding all person");
         return service.findAll();
     }
@@ -41,7 +41,7 @@ public class PersonController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person create(@RequestBody Person person) {
+    public PersonDTO create(@RequestBody PersonDTO person) {
         logger.info("Creating a new person");
         return service.create(person);
     }
@@ -50,7 +50,7 @@ public class PersonController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person update(@RequestBody Person person) {
+    public PersonDTO update(@RequestBody PersonDTO person) {
         logger.info("Updating a person");
         return service.update(person);
     }

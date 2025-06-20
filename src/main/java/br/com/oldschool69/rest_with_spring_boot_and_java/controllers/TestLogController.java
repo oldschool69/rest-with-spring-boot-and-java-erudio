@@ -1,0 +1,24 @@
+package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
+
+import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+
+@RestController
+public class TestLogController {
+
+    private final Logger logger = LoggerFactory.getLogger(TestLogController.class.getName());
+
+    @GetMapping("/test")
+    public String testLog(){
+        logger.debug("This is an DEBUG log");
+        logger.info("This is an INFO log");
+        logger.warn("This is an WARN log");
+        logger.error("This is an ERROR log");
+        return "Logs generated sucessfully!";
+    }
+}

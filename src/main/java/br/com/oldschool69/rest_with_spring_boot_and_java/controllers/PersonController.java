@@ -1,6 +1,7 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 
-import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.PersonDTO;
+import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
+import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v2.PersonDTOV2;
 import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,16 @@ public class PersonController {
         logger.info("Creating a new person");
         return service.create(person);
     }
+
+    @PostMapping(value = "/v2",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public PersonDTOV2 create(@RequestBody PersonDTOV2 person) {
+        logger.info("Creating a new person");
+        return service.createV2(person);
+    }
+
 
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,

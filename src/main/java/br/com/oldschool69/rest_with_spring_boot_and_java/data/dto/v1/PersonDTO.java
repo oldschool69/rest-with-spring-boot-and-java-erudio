@@ -1,4 +1,4 @@
-package br.com.oldschool69.rest_with_spring_boot_and_java.data.dto;
+package br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1;
 
 
 import java.io.Serializable;

@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -27,7 +28,13 @@ public class PersonController {
     )
     public PersonDTO findById(@PathVariable("id") Long id){
         logger.info("Finding one Person");
-        return service.findById(id);
+        var person =  service.findById(id);
+        person.setBirthDay(new Date());
+        //person.setPhoneNumber("+55 (19) 99397-9779");
+        person.setPhoneNumber("");
+        person.setLastName(null);
+        person.setSensitiveData("Foo Bar");
+        return person;
     }
 
     @GetMapping(

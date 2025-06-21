@@ -24,21 +24,15 @@ public class PersonController {
     private PersonServices service;
 
     @GetMapping(value = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
     public PersonDTO findById(@PathVariable("id") Long id){
         logger.info("Finding one Person");
-        var person =  service.findById(id);
-        person.setBirthDay(new Date());
-        //person.setPhoneNumber("+55 (19) 99397-9779");
-        person.setPhoneNumber("");
-        person.setLastName(null);
-        person.setSensitiveData("Foo Bar");
-        return person;
+        return service.findById(id);
     }
 
     @GetMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
     public List<PersonDTO> findAll() {
         logger.info("Finding all person");
@@ -46,8 +40,8 @@ public class PersonController {
     }
 
     @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
     public PersonDTO create(@RequestBody PersonDTO person) {
         logger.info("Creating a new person");
@@ -55,8 +49,8 @@ public class PersonController {
     }
 
     @PostMapping(value = "/v2",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
     public PersonDTOV2 create(@RequestBody PersonDTOV2 person) {
         logger.info("Creating a new person");

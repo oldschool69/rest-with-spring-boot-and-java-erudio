@@ -24,7 +24,11 @@ public class PersonController {
     private PersonServices service;
 
     @GetMapping(value = "/{id}",
-            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
+            produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE
+            }
     )
     public PersonDTO findById(@PathVariable("id") Long id){
         logger.info("Finding one Person");
@@ -32,7 +36,9 @@ public class PersonController {
     }
 
     @GetMapping(
-            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
+            produces = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE }
     )
     public List<PersonDTO> findAll() {
         logger.info("Finding all person");
@@ -40,8 +46,12 @@ public class PersonController {
     }
 
     @PostMapping(
-            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
-            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
+            consumes = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE }
     )
     public PersonDTO create(@RequestBody PersonDTO person) {
         logger.info("Creating a new person");
@@ -49,8 +59,12 @@ public class PersonController {
     }
 
     @PostMapping(value = "/v2",
-            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
-            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
+            consumes = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE }
     )
     public PersonDTOV2 create(@RequestBody PersonDTOV2 person) {
         logger.info("Creating a new person");
@@ -59,8 +73,12 @@ public class PersonController {
 
 
     @PutMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+            consumes = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE }
     )
     public PersonDTO update(@RequestBody PersonDTO person) {
         logger.info("Updating a person");

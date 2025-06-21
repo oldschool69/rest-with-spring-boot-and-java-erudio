@@ -1,22 +1,29 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1;
 
-
+//import br.com.oldschool69.rest_with_spring_boot_and_java.serializer.GenderSerializer;
+//import com.fasterxml.jackson.annotation.JsonInclude;
+//import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+// @JsonPropertyOrder({"id", "address", "first_name", "last_name", "gender"})
 public class PersonDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
+    //@JsonProperty("first_name")
     private String firstName;
 
+    //@JsonProperty("last_name")
+    // @JsonInclude(JsonInclude.Include.NON_NULL)
     private String lastName;
 
     private String address;
 
+    //@JsonSerialize(using = GenderSerializer.class)
     private String gender;
 
     public Long getId() {

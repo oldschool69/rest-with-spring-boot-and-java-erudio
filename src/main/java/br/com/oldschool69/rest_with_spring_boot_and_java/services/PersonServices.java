@@ -2,6 +2,7 @@ package br.com.oldschool69.rest_with_spring_boot_and_java.services;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.PersonController;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
+import br.com.oldschool69.rest_with_spring_boot_and_java.exception.RequiredObjectIsNullException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.ResourceNotFoundException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.model.Person;
 import br.com.oldschool69.rest_with_spring_boot_and_java.repository.PersonRepository;
@@ -40,6 +41,8 @@ public class PersonServices {
     }
 
     public PersonDTO create (PersonDTO person) {
+        if (person == null) throw  new RequiredObjectIsNullException();
+
         logger.info("Creating new person");
         var entity = parseObject(person, Person.class);
         var dto = parseObject(repository.save(entity), PersonDTO.class) ;
@@ -48,6 +51,8 @@ public class PersonServices {
     }
 
     public PersonDTO update (PersonDTO person) {
+        if (person == null) throw  new RequiredObjectIsNullException();
+
         logger.info("Updating a person");
         Person entity = repository.findById(person.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this Id"));

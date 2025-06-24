@@ -20,5 +20,6 @@ logging:
 spring-doc:
   paths-to-match:
     - /person/**
+    - /book/**
   swagger-ui:
     use-root-path: true

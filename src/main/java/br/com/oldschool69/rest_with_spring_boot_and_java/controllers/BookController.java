@@ -1,5 +1,6 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 
+import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.docs.BookControllerDocs;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.BookDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/book")
-public class BookController {
+public class BookController implements BookControllerDocs {
 
     @Autowired
     private BookServices service;

@@ -1,9 +1,7 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.services;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.BookController;
-import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.PersonController;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.BookDTO;
-import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.ResourceNotFoundException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.repository.BookRepository;
 import org.slf4j.Logger;

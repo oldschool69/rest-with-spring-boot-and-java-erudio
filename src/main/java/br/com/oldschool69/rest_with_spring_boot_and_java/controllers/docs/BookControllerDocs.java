@@ -17,7 +17,7 @@ import java.util.List;
 public interface BookControllerDocs {
     @Operation(summary = "Finds a book",
             description = "Find a book by Id",
-            tags = {"Books"},
+            tags = {"Book"},
             responses = {
                     @ApiResponse(description = "Success",
                             responseCode = "200",
@@ -91,5 +91,21 @@ public interface BookControllerDocs {
     )
     BookDTO update(@RequestBody BookDTO person);
 
+    @Operation(summary = "Delete Book",
+            description = "Delete a book",
+            tags = {"Book"},
+            responses = {
+                    @ApiResponse(description = "Success",
+                            responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = BookDTO.class))
+                    ),
+                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
 
+            }
+    )
+    ResponseEntity<?> delete(@PathVariable("id") Long id);
 }

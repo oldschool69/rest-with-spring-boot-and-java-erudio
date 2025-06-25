@@ -60,10 +60,27 @@ public class BookServices {
         return dto;
     }
 
+    public BookDTO update (BookDTO book) {
+        if (book == null) throw  new RequiredObjectIsNullException();
+
+        logger.info("Updating a person");
+        Book entity = repository.findById(book.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this Id"));
+
+        entity.setTitle(book.getTitle());
+        entity.setAuthor (book.getAuthor());
+        entity.setPrice(book.getPrice());
+        entity.setLaunchDate(book.getLaunchDate());
+        var dto = parseObject(repository.save(entity), BookDTO.class) ;
+        addHateoasLinks(dto);
+        return dto;
+    }
+
 
     private static void addHateoasLinks(BookDTO dto) {
         dto.add(linkTo(methodOn(BookController.class).findById(dto.getId())).withSelfRel().withType("GET"));
-        dto.add(linkTo(methodOn(BookController.class).findAll()).withSelfRel().withType("GET"));
+        dto.add(linkTo(methodOn(BookController.class).findAll()).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(BookController.class).create(dto)).withRel("create").withType("POST"));
+        dto.add(linkTo(methodOn(BookController.class).update(dto)).withRel("update").withType("PUT"));
     }
 }

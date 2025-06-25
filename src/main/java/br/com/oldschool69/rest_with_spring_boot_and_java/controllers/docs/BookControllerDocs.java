@@ -55,5 +55,23 @@ public interface BookControllerDocs {
     )
     List<BookDTO> findAll();
 
+    @Operation(summary = "Create a book",
+            description = "Create a new book",
+            tags = {"Book"},
+            responses = {
+                    @ApiResponse(description = "Success",
+                            responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = BookDTO.class))
+                    ),
+                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+
+            }
+    )
+    BookDTO create(@RequestBody BookDTO person);
+
 
 }

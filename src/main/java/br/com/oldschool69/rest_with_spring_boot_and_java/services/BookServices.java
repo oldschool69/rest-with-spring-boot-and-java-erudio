@@ -2,6 +2,7 @@ package br.com.oldschool69.rest_with_spring_boot_and_java.services;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.BookController;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.BookDTO;
+import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.ResourceNotFoundException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.repository.BookRepository;
 import org.slf4j.Logger;
@@ -9,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+import static br.com.oldschool69.rest_with_spring_boot_and_java.mapper.ObjectMapper.parseListObjects;
 import static br.com.oldschool69.rest_with_spring_boot_and_java.mapper.ObjectMapper.parseObject;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -34,9 +38,16 @@ public class BookServices {
         return  dto;
     }
 
+    public List<BookDTO> findAll(){
+        logger.info("Find all books available");
+        var books = parseListObjects(repository.findAll(), BookDTO.class) ;
+        books.forEach(BookServices::addHateoasLinks);
+        return books;
+
+    }
 
     private static void addHateoasLinks(BookDTO dto) {
         dto.add(linkTo(methodOn(BookController.class).findById(dto.getId())).withSelfRel().withType("GET"));
+        dto.add(linkTo(methodOn(BookController.class).findAll()).withSelfRel().withType("GET"));
     }
-
 }

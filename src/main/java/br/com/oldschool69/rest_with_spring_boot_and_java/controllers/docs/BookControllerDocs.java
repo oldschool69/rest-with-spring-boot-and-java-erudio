@@ -1,7 +1,6 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.controllers.docs;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.BookDTO;
-import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

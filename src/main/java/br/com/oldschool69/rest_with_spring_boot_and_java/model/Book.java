@@ -13,16 +13,17 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column()
+    @Column(nullable = false, length = 180)
     private String author;
 
     @Column(nullable = false)
     private Double price;
 
     @Column(name = "launch_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date launchDate;
 
-    @Column()
+    @Column(nullable = false, length = 250)
     private String title;
 
     public Long getId() {

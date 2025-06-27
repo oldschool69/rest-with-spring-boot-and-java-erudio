@@ -49,7 +49,6 @@ public class BookServices {
 
     public BookDTO create (BookDTO book) {
         if (book == null) throw  new RequiredObjectIsNullException();
-
         logger.info("Creating new book");
         var entity = parseObject(book, Book.class);
         var dto = parseObject(repository.save(entity), BookDTO.class) ;

@@ -1,1 +1,24 @@
-spring.application.name=rest-with-spring-boot-and-java
+server:
+  port: 8888
+spring:
+  application:
+    name: rest-with-spring-boot-and-java
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+    show-sql: false
+    open-in-view: false
+logging:
+  level:
+    # root: WARN
+    br.com.oldschool69.rest_with_spring_boot_and_java: DEBUG
+spring-doc:
+  paths-to-match:
+    - /person/**
+    - /book/**
+  swagger-ui:
+    use-root-path: true

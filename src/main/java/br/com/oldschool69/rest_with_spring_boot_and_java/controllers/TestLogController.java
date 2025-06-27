@@ -1,6 +1,5 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 
-import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;

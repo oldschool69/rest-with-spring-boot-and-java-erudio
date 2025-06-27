@@ -2,7 +2,7 @@ package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.docs.PersonControllerDocs;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
-import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonServices;
+import br.com.oldschool69.rest_with_spring_boot_and_java.unittests.services.PersonServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

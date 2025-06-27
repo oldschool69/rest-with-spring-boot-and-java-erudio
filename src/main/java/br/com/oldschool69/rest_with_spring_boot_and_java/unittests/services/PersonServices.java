@@ -1,4 +1,4 @@
-package br.com.oldschool69.rest_with_spring_boot_and_java.services;
+package br.com.oldschool69.rest_with_spring_boot_and_java.unittests.services;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.PersonController;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;

@@ -4,6 +4,7 @@ import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.RequiredObjectIsNullException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.model.Person;
 import br.com.oldschool69.rest_with_spring_boot_and_java.repository.PersonRepository;
+import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonServices;
 import br.com.oldschool69.rest_with_spring_boot_and_java.unittests.mapper.mocks.MockPerson;
 
 import static org.junit.jupiter.api.Assertions.*;

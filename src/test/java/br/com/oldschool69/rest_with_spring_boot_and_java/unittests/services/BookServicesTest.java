@@ -4,6 +4,7 @@ import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.BookDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.RequiredObjectIsNullException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.model.Book;
 import br.com.oldschool69.rest_with_spring_boot_and_java.repository.BookRepository;
+import br.com.oldschool69.rest_with_spring_boot_and_java.services.BookServices;
 import br.com.oldschool69.rest_with_spring_boot_and_java.unittests.mapper.mocks.MockBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

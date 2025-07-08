@@ -11,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -22,9 +20,6 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static br.com.oldschool69.rest_with_spring_boot_and_java.mapper.ObjectMapper.parseListObjects;
 import static br.com.oldschool69.rest_with_spring_boot_and_java.mapper.ObjectMapper.parseObject;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -109,6 +104,28 @@ public class PersonServices {
         logger.info("Finding all people");
 
         var people = repository.findAll(pageable);
+
+        var peopleWithLinks = people.map(person -> {
+            var dto = parseObject(person, PersonDTO.class) ;
+            addHateoasLinks(dto);
+            return dto;
+        });
+
+        Link findAllLinks = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(PersonController.class)
+                        .findAll(
+                                pageable.getPageNumber(),
+                                pageable.getPageSize(),
+                                String.valueOf(pageable.getSort())))
+                .withSelfRel();
+
+        return assembler.toModel(peopleWithLinks, findAllLinks);
+    }
+
+    public PagedModel<EntityModel<PersonDTO>> findByName(String firstName, Pageable pageable) {
+        logger.info("Finding people by first name");
+
+        var people = repository.findPeopleByName(firstName, pageable);
 
         var peopleWithLinks = people.map(person -> {
             var dto = parseObject(person, PersonDTO.class) ;

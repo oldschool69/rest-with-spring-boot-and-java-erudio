@@ -2,6 +2,7 @@ package br.com.oldschool69.rest_with_spring_boot_and_java.integrationtests.contr
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.config.TestConfigs;
 import br.com.oldschool69.rest_with_spring_boot_and_java.dto.PersonDTO;
+import br.com.oldschool69.rest_with_spring_boot_and_java.dto.wrappers.WrapperPersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.integrationtests.testcontainers.AbstractionIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -195,7 +196,8 @@ class PersonControllerJsonTest extends AbstractionIntegrationTest {
                 .body()
                 .asString();
 
-        List<PersonDTO> people = objectMapper.readValue(content, new TypeReference<List<PersonDTO>>() {});
+        WrapperPersonDTO wrapper = objectMapper.readValue(content, WrapperPersonDTO.class);
+        List<PersonDTO> people = wrapper.getEmbedded().getPeople();
 
         PersonDTO personOne = people.get(0);
 

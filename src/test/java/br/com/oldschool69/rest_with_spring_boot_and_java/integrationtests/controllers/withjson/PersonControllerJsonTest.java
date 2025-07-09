@@ -187,6 +187,7 @@ class PersonControllerJsonTest extends AbstractionIntegrationTest {
 
         var content = given(specification)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
+                .queryParams("page", 3, "size", 12, "direction", "asc")
                 .when()
                 .get()
                 .then()
@@ -204,21 +205,21 @@ class PersonControllerJsonTest extends AbstractionIntegrationTest {
         assertNotNull(personOne.getId());
         assertTrue(personOne.getId() > 0);
 
-        assertEquals("Flavio", personOne.getFirstName());
-        assertEquals("Oliveira", personOne.getLastName());
-        assertEquals("Campinas - São Paulo  - Brazil", personOne.getAddress());
-        assertEquals("Male", personOne.getGender());
-        assertTrue(personOne.getEnabled());
+        assertEquals("Amye", personOne.getFirstName());
+        assertEquals("Thaller", personOne.getLastName());
+        assertEquals("Apt 333", personOne.getAddress());
+        assertEquals("Female", personOne.getGender());
+        assertFalse(personOne.getEnabled());
 
         PersonDTO personFour = people.get(4);
 
         assertNotNull(personFour.getId());
         assertTrue(personFour.getId() > 0);
 
-        assertEquals("Nelson", personFour.getFirstName());
-        assertEquals("Mandela", personFour.getLastName());
-        assertEquals("Mvezo - South Africa", personFour.getAddress());
-        assertEquals("Male", personFour.getGender());
+        assertEquals("Andriana", personFour.getFirstName());
+        assertEquals("Audus", personFour.getLastName());
+        assertEquals("Room 208", personFour.getAddress());
+        assertEquals("Female", personFour.getGender());
         assertTrue(personFour.getEnabled());
     }
 

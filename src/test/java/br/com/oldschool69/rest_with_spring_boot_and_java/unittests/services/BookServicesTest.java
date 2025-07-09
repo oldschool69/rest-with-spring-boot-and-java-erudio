@@ -62,7 +62,7 @@ class BookServicesTest {
 
         assertTrue(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findAll")
-                        && link.getHref().endsWith("book")
+                        && link.getHref().endsWith("book?page=1&size=12&direction=asc")
                         && link.getType().equals("GET")));
 
 
@@ -110,7 +110,7 @@ class BookServicesTest {
 
         assertTrue(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findAll")
-                        && link.getHref().endsWith("book")
+                        && link.getHref().endsWith("book?page=1&size=12&direction=asc")
                         && link.getType().equals("GET")));
 
 
@@ -172,7 +172,7 @@ class BookServicesTest {
 
         assertTrue(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findAll")
-                        && link.getHref().endsWith("book")
+                        && link.getHref().endsWith("book?page=1&size=12&direction=asc")
                         && link.getType().equals("GET")));
 
 
@@ -339,8 +339,5 @@ class BookServicesTest {
         assertEquals("Title7", bookSeven.getTitle());
         assertEquals(150.00 + 7L, bookSeven.getPrice());
         assertEquals(input.getDate(), bookSeven.getLaunchDate());
-
-
-
     }
 }

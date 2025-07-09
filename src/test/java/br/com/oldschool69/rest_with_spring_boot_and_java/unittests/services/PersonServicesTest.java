@@ -63,7 +63,7 @@ class PersonServicesTest {
 
         assertTrue(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findAll")
-                        && link.getHref().endsWith("person")
+                        && link.getHref().endsWith("person?page=1&size=12&direction=asc")
                         && link.getType().equals("GET")));
 
 
@@ -113,7 +113,7 @@ class PersonServicesTest {
 
         assertTrue(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findAll")
-                        && link.getHref().endsWith("person")
+                        && link.getHref().endsWith("person?page=1&size=12&direction=asc")
                         && link.getType().equals("GET")));
 
 
@@ -179,7 +179,7 @@ class PersonServicesTest {
 
         assertTrue(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findAll")
-                        && link.getHref().endsWith("person")
+                        && link.getHref().endsWith("person?page=1&size=12&direction=asc")
                         && link.getType().equals("GET")));
 
 

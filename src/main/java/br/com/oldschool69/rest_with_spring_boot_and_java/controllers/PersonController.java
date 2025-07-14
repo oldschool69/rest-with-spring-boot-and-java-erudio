@@ -17,6 +17,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -93,6 +94,17 @@ public class PersonController implements PersonControllerDocs {
     public PersonDTO create(@RequestBody PersonDTO person) {
         logger.info("Creating a new person");
         return service.create(person);
+    }
+
+    @PostMapping(value = "/createMany",
+        produces = {MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE,
+                MediaType.APPLICATION_YAML_VALUE}
+)
+    @Override
+    public List<PersonDTO> createMany(@RequestParam("file") MultipartFile file) {
+        logger.info("Creating many persons in a row");
+        return service.createMany(file);
     }
 
     @PutMapping(

@@ -12,6 +12,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -105,6 +106,25 @@ public interface PersonControllerDocs {
             }
     )
     PersonDTO create(@RequestBody PersonDTO person);
+
+    @Operation(summary = "Massive people creation",
+            description = "Massive people creation with XLSX or CSV file upload",
+            tags = {"People"},
+            responses = {
+                    @ApiResponse(description = "Success",
+                            responseCode = "200",
+                            content = {
+                                    @Content(schema = @Schema(implementation = PersonDTO.class))
+                            }),
+                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+
+            }
+    )
+    List<PersonDTO> createMany(MultipartFile file);
 
     @Operation(summary = "Update person",
             description = "Update a person",

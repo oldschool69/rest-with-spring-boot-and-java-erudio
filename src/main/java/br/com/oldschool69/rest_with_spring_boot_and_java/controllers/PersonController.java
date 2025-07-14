@@ -2,11 +2,14 @@ package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.docs.PersonControllerDocs;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
+import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.MediaTypes;
 import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +65,37 @@ public class PersonController implements PersonControllerDocs {
         var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
         return ResponseEntity.ok(service.findAll(pageable));
+    }
+
+    @GetMapping(value = "/exportPage",
+            produces = {MediaTypes.APPLICATION_XLSX_VALUE,
+                    MediaTypes.APPLICATION_CSV_VALUE}
+    )
+    @Override
+    public  ResponseEntity<Resource> exportPage(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction,
+            HttpServletRequest request
+    ) {
+        logger.info("Exporting page of people");
+        var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
+
+        String acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
+
+        Resource file = service.exportPage(pageable, acceptHeader);
+
+        String contentType = acceptHeader != null ? acceptHeader : "application/octet-stream";
+        String fileExtension = MediaTypes.APPLICATION_XLSX_VALUE.equalsIgnoreCase(acceptHeader)
+                ? ".xlsx" : ".csv";
+        String fileName = "people_exported" + fileExtension;
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + fileName + "\"")
+                .body(file);
     }
 
     @GetMapping(value = "/findPeopleByName/{firstName}",

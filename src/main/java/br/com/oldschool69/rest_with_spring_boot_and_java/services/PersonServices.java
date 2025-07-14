@@ -6,6 +6,9 @@ import br.com.oldschool69.rest_with_spring_boot_and_java.exception.BadRequestExc
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.FileStorageException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.RequiredObjectIsNullException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.ResourceNotFoundException;
+import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.MediaTypes;
+import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.contract.FileExporter;
+import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.factory.FileExporterFactory;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.importer.contract.FileImporter;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.importer.factory.FileImporterFactory;
 import br.com.oldschool69.rest_with_spring_boot_and_java.model.Person;
@@ -15,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -48,6 +52,9 @@ public class PersonServices {
 
     @Autowired
     FileImporterFactory fileImporterFactory;
+
+    @Autowired
+    FileExporterFactory fileExporterFactory;
 
 
     public PersonDTO findById(Long id){
@@ -146,6 +153,22 @@ public class PersonServices {
         return buildPageModel(pageable, people);
     }
 
+    public Resource exportPage(Pageable pageable, String acceptHeader) {
+        logger.info("Exporting a people page");
+
+        var people = repository.findAll(pageable)
+                .map(person -> parseObject(person, PersonDTO.class))
+                .getContent();
+
+        try {
+            FileExporter exporter = this.fileExporterFactory.getExporter(acceptHeader);
+            return exporter.exportFile(people);
+        } catch (Exception e) {
+            throw new RuntimeException("Error during file export", e);
+        }
+    }
+
+
     public PagedModel<EntityModel<PersonDTO>> findByName(String firstName, Pageable pageable) {
         logger.info("Finding people by first name");
 
@@ -182,5 +205,9 @@ public class PersonServices {
         dto.add(linkTo(methodOn(PersonController.class).update(dto)).withRel("update").withType("PUT"));
         dto.add(linkTo(methodOn(PersonController.class).disablePerson(dto.getId())).withRel("disable").withType("PATCH"));
         dto.add(linkTo(methodOn(PersonController.class).delete(dto.getId())).withRel("delete").withType("DELETE"));
+        dto.add(linkTo(methodOn(PersonController.class).exportPage(1, 12, "asc", null))
+                .withRel("exportPage")
+                .withType("GET")
+                .withTitle("Export page of people"));
     }
 }

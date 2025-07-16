@@ -4,6 +4,7 @@ import br.com.oldschool69.rest_with_spring_boot_and_java.exception.BadRequestExc
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.MediaTypes;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.contract.FileExporter;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.impl.CsvExporter;
+import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.impl.PdfExporter;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.impl.XlsxExporter;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.importer.contract.FileImporter;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.importer.impl.CsvImporter;
@@ -26,6 +27,9 @@ public class FileExporterFactory {
             return context.getBean(XlsxExporter.class);
         } else if(acceptHeader.endsWith(MediaTypes.APPLICATION_CSV_VALUE)) {
             return context.getBean(CsvExporter.class);
+        }
+        else if(acceptHeader.endsWith(MediaTypes.APPLICATION_PDF_VALUE)) {
+            return context.getBean(PdfExporter.class);
         } else {
             throw new BadRequestException("Invalid file format");
         }

@@ -1,7 +1,8 @@
 cors:
   originPatterns: http://localhost:8080,http://localhost:3000,https://g1.globo.com
 file:
-  upload-dir: /Users/fmarcondes/Documents/training/upload-dir
+  # upload-dir: /Users/fmarcondes/Documents/training/upload-dir Windows
+  upload-dir: /home/flavio/upload-dir
 spring:
   application:
     name: rest-with-spring-boot-and-java

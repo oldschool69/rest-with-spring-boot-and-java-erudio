@@ -5,6 +5,9 @@ cors:
 file:
   # upload-dir: /Users/fmarcondes/Documents/training/upload-dir Windows
   upload-dir: /home/flavio/upload-dir
+email:
+  subject: "Default Subject"
+  message: "Default Message"
 spring:
   application:
     name: rest-with-spring-boot-and-java
@@ -17,6 +20,15 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enabled: true
+      mail.smtp.starttls.required: true
   servlet:
     multipart:
       enabled: true

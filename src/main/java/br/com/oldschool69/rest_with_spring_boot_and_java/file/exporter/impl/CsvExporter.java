@@ -1,7 +1,7 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.impl;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
-import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.contract.FileExporter;
+import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.contract.PersonExporter;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.core.io.ByteArrayResource;
@@ -14,9 +14,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
-public class CsvExporter implements FileExporter {
+public class CsvExporter implements PersonExporter {
     @Override
-    public Resource exportFile(List<PersonDTO> people) throws Exception {
+    public Resource exportPeople(List<PersonDTO> people) throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
 

@@ -6,8 +6,7 @@ import br.com.oldschool69.rest_with_spring_boot_and_java.exception.BadRequestExc
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.FileStorageException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.RequiredObjectIsNullException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.ResourceNotFoundException;
-import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.MediaTypes;
-import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.contract.FileExporter;
+import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.contract.PersonExporter;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.factory.FileExporterFactory;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.importer.contract.FileImporter;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.importer.factory.FileImporterFactory;
@@ -30,7 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +76,7 @@ public class PersonServices {
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this Id"));
 
         try {
-            FileExporter exporter = this.fileExporterFactory.getExporter(acceptHeader);
+            PersonExporter exporter = this.fileExporterFactory.getExporter(acceptHeader);
             return exporter.exportPerson(person);
         } catch (Exception e) {
             throw new RuntimeException("Error during person data export", e);
@@ -178,8 +176,8 @@ public class PersonServices {
                 .getContent();
 
         try {
-            FileExporter exporter = this.fileExporterFactory.getExporter(acceptHeader);
-            return exporter.exportFile(people);
+            PersonExporter exporter = this.fileExporterFactory.getExporter(acceptHeader);
+            return exporter.exportPeople(people);
         } catch (Exception e) {
             throw new RuntimeException("Error during file export", e);
         }

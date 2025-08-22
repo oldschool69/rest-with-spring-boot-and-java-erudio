@@ -68,7 +68,8 @@ public class EmailSender implements Serializable {
             mailSender.send(message);
             logger.info("Email sent to %s with the subject '%s'%n", to, subject);
             reset();
-        } catch (MessagingException e) {
+        } catch (Exception e) {
+            logger.info("***DEBUG Exception sending email " + e);
             throw new RuntimeException("Error sending the email", e);
         }
     }

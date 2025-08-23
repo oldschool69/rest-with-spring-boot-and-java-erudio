@@ -1,7 +1,10 @@
-package br.com.oldschool69.rest_with_spring_boot_and_java;
+package br.com.oldschool69.rest_with_spring_boot_and_java.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import br.com.oldschool69.rest_with_spring_boot_and_java.security.jwt.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -9,17 +12,19 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootApplication
-public class Startup {
+@EnableWebSecurity
+@Configuration
+public class SecurityConfig {
 
-	public static void main(String[] args) {
+    @Autowired
+    private JwtTokenProvider tokenProvider;
 
-        SpringApplication.run(Startup.class, args);
+    public SecurityConfig(JwtTokenProvider tokenProvider) {
+        this.tokenProvider = tokenProvider;
+    }
 
-        generatedHashPassword();
-	}
-
-    private static void generatedHashPassword() {
+    @Bean
+    PasswordEncoder passwordEncoder() {
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("", 8, 185000,
                 Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
@@ -27,12 +32,6 @@ public class Startup {
         DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
 
         passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
-
-        var pass1 = passwordEncoder.encode("admin123");
-        var pass2 = passwordEncoder.encode("admin234");
-
-        System.out.println("pass 1" + pass1);
-        System.out.println("pass 2" + pass2);
+        return passwordEncoder;
     }
-
 }

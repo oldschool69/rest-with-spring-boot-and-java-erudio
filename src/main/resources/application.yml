@@ -3,6 +3,11 @@ cors:
 file:
   # upload-dir: /Users/fmarcondes/Documents/training/upload-dir Windows
   upload-dir: /home/flavio/upload-dir
+security:
+  jwt:
+    token:
+      secret-key: 53cr37
+      expire-length: 3600000
 email:
   subject: "Default Subject"
   message: "Default Message"

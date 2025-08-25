@@ -50,5 +50,9 @@ spring-doc:
   paths-to-match:
     - /person/**
     - /book/**
+    - /auth/**
+    - /api/email/**
+    - /api/file/**
+    - /test/**
   swagger-ui:
     use-root-path: true

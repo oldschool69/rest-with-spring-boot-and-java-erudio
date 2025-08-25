@@ -1,9 +1,7 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.services;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.BookController;
-import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.PersonController;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.BookDTO;
-import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.RequiredObjectIsNullException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.exception.ResourceNotFoundException;
 import br.com.oldschool69.rest_with_spring_boot_and_java.model.Book;
@@ -19,17 +17,14 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import static br.com.oldschool69.rest_with_spring_boot_and_java.mapper.ObjectMapper.parseListObjects;
 import static br.com.oldschool69.rest_with_spring_boot_and_java.mapper.ObjectMapper.parseObject;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
-public class BookServices {
+public class BookService {
 
-    private final Logger logger = LoggerFactory.getLogger(BookServices.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(BookService.class.getName());
 
     @Autowired
     private BookRepository repository;

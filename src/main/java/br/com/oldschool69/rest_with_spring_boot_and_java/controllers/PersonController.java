@@ -3,14 +3,13 @@ package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.docs.PersonControllerDocs;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.file.exporter.MediaTypes;
-import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonServices;
+import br.com.oldschool69.rest_with_spring_boot_and_java.services.PersonService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -35,7 +34,7 @@ public class PersonController implements PersonControllerDocs {
     private final Logger logger = LoggerFactory.getLogger(PersonController.class.getName());
 
     @Autowired
-    private PersonServices service;
+    private PersonService service;
 
     //@CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/{id}",

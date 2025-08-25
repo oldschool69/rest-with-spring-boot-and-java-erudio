@@ -2,7 +2,7 @@ package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 
 import br.com.oldschool69.rest_with_spring_boot_and_java.controllers.docs.BookControllerDocs;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.BookDTO;
-import br.com.oldschool69.rest_with_spring_boot_and_java.services.BookServices;
+import br.com.oldschool69.rest_with_spring_boot_and_java.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,14 +13,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/book")
 public class BookController implements BookControllerDocs {
 
     @Autowired
-    private BookServices service;
+    private BookService service;
 
     @GetMapping(value = "/{id}",
             produces = {

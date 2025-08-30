@@ -1,5 +1,6 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.controllers;
 
+import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.security.AccountCredentialsDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.security.TokenDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.services.AuthService;
@@ -8,19 +9,20 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Authentication Endpoint!")
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements br.com.oldschool69.rest_with_spring_boot_and_java.controllers.docs.AuthControllerDocs {
 
     @Autowired
     private AuthService service;
 
-    @Operation(summary = "Authenticates an user and returns a token")
     @PostMapping("/signin")
+    @Override
     public ResponseEntity<?> signin(@RequestBody AccountCredentialsDTO credentials) {
 
         if (isInvalidCredentials(credentials)) {
@@ -36,8 +38,8 @@ public class AuthController {
         return ResponseEntity.ok().body(token);
     }
 
-    @Operation(summary = "Refresh token for authenticated user and returns a token")
     @PutMapping("/refresh/{username}")
+    @Override
     public ResponseEntity<?> refreshToken(
             @PathVariable("username") String username,
             @RequestHeader("Authorization") String refreshToken
@@ -54,6 +56,19 @@ public class AuthController {
         }
 
         return ResponseEntity.ok().body(token);
+    }
+
+    @PostMapping(value = "/createUser",
+            consumes = {MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE}
+    )
+    @Override
+    public AccountCredentialsDTO create(@RequestBody AccountCredentialsDTO credentials) {
+        return service.create(credentials);
     }
 
     private boolean parametersAreInvalid(String username, String refreshToken) {

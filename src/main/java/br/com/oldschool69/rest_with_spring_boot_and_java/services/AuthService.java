@@ -1,18 +1,34 @@
 package br.com.oldschool69.rest_with_spring_boot_and_java.services;
 
+import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.security.AccountCredentialsDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.data.dto.v1.security.TokenDTO;
+import br.com.oldschool69.rest_with_spring_boot_and_java.exception.RequiredObjectIsNullException;
+import br.com.oldschool69.rest_with_spring_boot_and_java.model.Person;
+import br.com.oldschool69.rest_with_spring_boot_and_java.model.User;
 import br.com.oldschool69.rest_with_spring_boot_and_java.repository.UserRepository;
 import br.com.oldschool69.rest_with_spring_boot_and_java.security.jwt.JwtTokenProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static br.com.oldschool69.rest_with_spring_boot_and_java.mapper.ObjectMapper.parseObject;
 
 @Service
 public class AuthService {
+
+    Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -54,5 +70,37 @@ public class AuthService {
 
         return ResponseEntity.ok(token);
 
+    }
+
+    public AccountCredentialsDTO create (AccountCredentialsDTO user) {
+        if (user == null) throw  new RequiredObjectIsNullException();
+
+        logger.info("Creating one new user");
+        var entity = new User();
+
+        entity.setFullName(user.getFullname());
+        entity.setUserName(user.getUsername());
+        entity.setPassword(generatedHashPassword(user.getPassword()));
+        entity.setAccountNonExpired(true);
+        entity.setAccountNonLocked(true);
+        entity.setCredentialsNonExpired(true);
+        entity.setEnabled(true);
+
+        var dto = repository.save(entity);
+
+        return new AccountCredentialsDTO(dto.getUsername(), dto.getPassword(), dto.getFullName());
+    }
+
+
+    private String generatedHashPassword(String password) {
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
+        PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("", 8, 185000,
+                Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
+        encoders.put("pbkdf2", pbkdf2Encoder);
+        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("pbkdf2", encoders);
+
+        passwordEncoder.setDefaultPasswordEncoderForMatches(pbkdf2Encoder);
+
+        return passwordEncoder.encode(password);
     }
 }

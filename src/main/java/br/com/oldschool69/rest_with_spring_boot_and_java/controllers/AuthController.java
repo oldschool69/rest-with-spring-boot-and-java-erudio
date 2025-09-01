@@ -35,7 +35,7 @@ public class AuthController implements br.com.oldschool69.rest_with_spring_boot_
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
         }
 
-        return ResponseEntity.ok().body(token);
+        return token;
     }
 
     @PutMapping("/refresh/{username}")
@@ -55,7 +55,7 @@ public class AuthController implements br.com.oldschool69.rest_with_spring_boot_
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request!");
         }
 
-        return ResponseEntity.ok().body(token);
+        return token;
     }
 
     @PostMapping(value = "/createUser",

@@ -18,7 +18,7 @@ spring:
     name: rest-with-spring-boot-and-java
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${JDBC_URL}
+    url: ${CLOUD_SQL_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
   jpa:

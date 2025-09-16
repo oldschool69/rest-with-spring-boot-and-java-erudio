@@ -114,35 +114,27 @@ class PersonControllerCorsTest extends AbstractionIntegrationTest {
     @Test
     @Order(2)
     void createWithWrongOrigin() throws JsonProcessingException {
-        try{
-            specification = new RequestSpecBuilder()
-                    .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_SEMERU)
-                    .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + token.getAccessToken())
-                    .setBasePath("/person")
-                    .setPort(TestConfigs.SERVER_PORT)
-                    .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-                    .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-                    .build();
+        specification = new RequestSpecBuilder()
+                .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_SEMERU)
+                .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + token.getAccessToken())
+                .setBasePath("/person")
+                .setPort(TestConfigs.SERVER_PORT)
+                .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                .build();
 
-            var content = given(specification)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .body(person)
-                    .when()
-                    .post()
-                    .then()
-                    .statusCode(403)
-                    .extract()
-                    .body()
-                    .asString();
+        var content = given(specification)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(person)
+                .when()
+                .post()
+                .then()
+                .statusCode(403)
+                .extract()
+                .body()
+                .asString();
 
-            assertEquals("Invalid CORS request", content);
-
-        }catch (Exception e){
-            System.out.println("***DEBUG " +  e);
-            for(var el: e.getStackTrace()) {
-                System.out.println(el.toString());
-            }
-        }
+        assertEquals("Invalid CORS request", content);
     }
 
     @Test

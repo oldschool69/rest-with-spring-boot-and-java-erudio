@@ -41,12 +41,6 @@ jobs:
       - name: Docker Composer Build
         run: docker compose build
 
-
-      - name: Download task definition
-        run: |
-          aws ecs describe-task-definition --task-definition ${{ secrets.TASK_DEFINITION_NAME }} --query taskDefinition > task-definition.json
-
-
       - name: Push to Google Cloud Artifact Registry
         run: |
           docker tag ${{ secrets.DOCKER_USERNAME }}/rest-with-spring-boot:latest ${{ secrets.REGISTRY_INFO }}/rest-with-spring-boot:latest

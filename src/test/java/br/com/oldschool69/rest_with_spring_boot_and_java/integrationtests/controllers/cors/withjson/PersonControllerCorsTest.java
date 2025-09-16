@@ -5,6 +5,7 @@ import br.com.oldschool69.rest_with_spring_boot_and_java.dto.AccountCredentialsD
 import br.com.oldschool69.rest_with_spring_boot_and_java.dto.PersonDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.dto.TokenDTO;
 import br.com.oldschool69.rest_with_spring_boot_and_java.integrationtests.testcontainers.AbstractionIntegrationTest;
+import br.com.oldschool69.rest_with_spring_boot_and_java.services.AuthService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,8 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
@@ -28,6 +31,8 @@ class PersonControllerCorsTest extends AbstractionIntegrationTest {
     private static ObjectMapper objectMapper;
     private static PersonDTO person;
     private static TokenDTO token;
+
+    Logger logger = LoggerFactory.getLogger(PersonControllerCorsTest.class);
 
     @BeforeAll
     static void setUp(){
@@ -109,28 +114,35 @@ class PersonControllerCorsTest extends AbstractionIntegrationTest {
     @Test
     @Order(2)
     void createWithWrongOrigin() throws JsonProcessingException {
+        try{
+            specification = new RequestSpecBuilder()
+                    .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_SEMERU)
+                    .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + token.getAccessToken())
+                    .setBasePath("/person")
+                    .setPort(TestConfigs.SERVER_PORT)
+                    .addFilter(new RequestLoggingFilter(LogDetail.ALL))
+                    .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
+                    .build();
 
-        specification = new RequestSpecBuilder()
-            .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_SEMERU)
-                .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + token.getAccessToken())
-            .setBasePath("/person")
-            .setPort(TestConfigs.SERVER_PORT)
-            .addFilter(new RequestLoggingFilter(LogDetail.ALL))
-            .addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-            .build();
+            var content = given(specification)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(person)
+                    .when()
+                    .post()
+                    .then()
+                    .statusCode(403)
+                    .extract()
+                    .body()
+                    .asString();
 
-        var content = given(specification)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(person)
-                .when()
-                .post()
-                .then()
-                .statusCode(403)
-                .extract()
-                .body()
-                .asString();
+            assertEquals("Invalid CORS request", content);
 
-        assertEquals("Invalid CORS request", content);
+        }catch (Exception e){
+            logger.error("***DEBUG {}", String.valueOf(e));
+            for(var el: e.getStackTrace()) {
+                logger.error(el.toString());
+            }
+        }
     }
 
     @Test

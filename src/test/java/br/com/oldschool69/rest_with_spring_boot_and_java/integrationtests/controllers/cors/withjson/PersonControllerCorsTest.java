@@ -138,9 +138,9 @@ class PersonControllerCorsTest extends AbstractionIntegrationTest {
             assertEquals("Invalid CORS request", content);
 
         }catch (Exception e){
-            logger.error("***DEBUG {}", String.valueOf(e));
+            logger.trace("***DEBUG {}", String.valueOf(e));
             for(var el: e.getStackTrace()) {
-                logger.error(el.toString());
+                logger.trace(el.toString());
             }
         }
     }

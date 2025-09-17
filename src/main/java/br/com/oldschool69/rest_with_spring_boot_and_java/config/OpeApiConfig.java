@@ -13,7 +13,7 @@ public class OpeApiConfig {
     OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("REST API's Java Spring Boot training - Carecao Xique!")
+                        .title("REST API's Java Spring Boot training - Deploy GCP")
                         .version("v1")
                         .description("REST API's Java Spring Boot training")
                         .termsOfService("my terms")

@@ -3,7 +3,7 @@ name: Continuous Integration and Delivery with Github actions
 on:
   push:
     branches:
-      - "gcp-deploy"
+      - "gcp-deploy-kubernetes"
 
 jobs:
 

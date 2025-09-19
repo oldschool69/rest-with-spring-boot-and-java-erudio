@@ -18,7 +18,7 @@ public class OpeApiConfig {
     OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("REST API's Java Spring Boot training - V1 " + service.retrieveInstanceInfo())
+                        .title("REST API's Java Spring Boot training - V2 " + service.retrieveInstanceInfo())
                         .version("v1")
                         .description("REST API's Java Spring Boot training")
                         .termsOfService("my terms")

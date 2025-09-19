@@ -58,13 +58,13 @@ jobs:
           docker push ${{ secrets.REGISTRY_INFO }}/rest-with-spring-boot:latest
           docker push ${{ secrets.REGISTRY_INFO }}/rest-with-spring-boot:${{ github.run_id }}
 
-      - name: Deploy to Google Cloud Run
-        run: |
-          gcloud run deploy rest-with-spring-boot \
-            --image ${{ secrets.REGISTRY_INFO }}/rest-with-spring-boot:latest \
-            --region us-central1 \
-            --platform managed \
-            --allow-unauthenticated
+#      - name: Deploy to Google Cloud Run
+#        run: |
+#          gcloud run deploy rest-with-spring-boot \
+#            --image ${{ secrets.REGISTRY_INFO }}/rest-with-spring-boot:latest \
+#            --region us-central1 \
+#            --platform managed \
+#            --allow-unauthenticated
 
       - name: Push to Docker Container Registry
         run: |

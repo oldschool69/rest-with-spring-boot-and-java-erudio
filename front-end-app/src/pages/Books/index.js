@@ -1,12 +1,10 @@
-import React from "react";
-
 import './styles.css';
 
 import logoImage from '../../assets/logo.svg'
 import { Link } from "react-router-dom";
 import { FiPower, FiEdit, FiTrash2 } from 'react-icons/fi';
 
-export default function Book() {
+export default function Books() {
   return (
     <div className="book-container">
       <header>

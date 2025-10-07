@@ -2,6 +2,9 @@ import './styles.css';
 
 import logoImage from '../../assets/logo.svg'
 import { Link } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import api from '../../services/api';
 import { FiPower, FiEdit, FiTrash2 } from 'react-icons/fi';
 
 export default function Books() {

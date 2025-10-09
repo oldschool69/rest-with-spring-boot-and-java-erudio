@@ -19,6 +19,10 @@ export default function Books() {
     history.push('/');
   }
 
+  async function editBook(id) {
+    history.push(`/book/new/${id}`);
+  }
+
   async function deleteBook(id) {
     try {
       await api.delete(`/book/${id}`, {
@@ -52,7 +56,7 @@ export default function Books() {
       <header>
         <img src={logoImage} alt="Carecao Logo" />
         <span>Welcome, <strong>{userName.toUpperCase()}</strong></span>
-        <Link className="button" to="/book/new">Add New Book</Link>
+        <Link className="button" to="/book/new/0">Add New Book</Link>
         <button type="button" onClick={logout}>
             <FiPower size={18} color="#251FC5" />
         </button>
@@ -70,7 +74,7 @@ export default function Books() {
             <p>{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(book.price)}</p>
             <strong>Release Date:</strong>
             <p>{new Date(book.launchDate).toLocaleDateString('pt-BR')}</p>
-            <button type="button">
+            <button type="button" onClick={() => editBook(book.id)}>
               <FiEdit size={20} color="#251FC5" />
             </button>
             <button type="button" onClick={() => deleteBook(book.id)}>

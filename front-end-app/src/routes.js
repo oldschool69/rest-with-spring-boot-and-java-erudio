@@ -10,7 +10,7 @@ export default function Routes(){
             <Switch>
                 <Route path="/" exact component={Login}></Route>
                 <Route path="/books" component={Books}></Route> 
-                <Route path="/book/new" component={NewBook}></Route>
+                <Route path="/book/new/:bookId" component={NewBook}></Route>
             </Switch>
         </BrowserRouter>
     );

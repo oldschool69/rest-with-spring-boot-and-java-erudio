@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, use } from 'react';
 import api from '../../services/api';
 
 import './styles.css';
@@ -17,6 +17,35 @@ export default function Books() {
     const [price, setPrice] = useState('');
     const [launchDate, setLaunchDate] = useState('');
 
+    const bookId = useParams().bookId;
+
+    useEffect(() => {
+        if (bookId === '0') {
+            return;
+        }
+        loadBook();
+    }, [bookId]);
+
+    async function loadBook() {
+        const token = localStorage.getItem('accessToken');
+        try {
+            const response = await api.get(`/book/${bookId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+            const adjustedDate = new Date(response.data.launchDate).toISOString().split('T')[0];
+            setId(response.data.id);
+            setTitle(response.data.title);
+            setAuthor(response.data.author);
+            setPrice(response.data.price);
+            setLaunchDate(adjustedDate);
+        }   catch (err) {
+            alert('Error loading book, try again.');
+            history.push('/books');
+        }
+    }
+        
     async function createNewBook(e){
         e.preventDefault();
 

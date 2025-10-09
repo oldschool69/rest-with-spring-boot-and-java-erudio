@@ -14,10 +14,34 @@ export default function Books() {
   const userName = localStorage.getItem('username');
   const history = useHistory();
 
+  async function logout() {
+    localStorage.clear();
+    history.push('/');
+  }
+
+  async function deleteBook(id) {
+    try {
+      await api.delete(`/book/${id}`, {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+      setBooks(books.filter(book => book.id !== id));
+    } catch (err) {
+      alert('Error deleting book, try again.');
+    }
+  }
+
   useEffect(() => {
     api.get('/book', { headers: {
         'Authorization': `Bearer ${token}`,
-    } }).then(response => {
+    },
+    params: {
+      page: 1, 
+      size: 4, 
+      direction: 'asc'
+    }
+  }).then(response => {
         //console.log(response.data);
         setBooks(response.data._embedded.bookDTOList);
     }) 
@@ -29,7 +53,7 @@ export default function Books() {
         <img src={logoImage} alt="Carecao Logo" />
         <span>Welcome, <strong>{userName.toUpperCase()}</strong></span>
         <Link className="button" to="/book/new">Add New Book</Link>
-        <button type="button">
+        <button type="button" onClick={logout}>
             <FiPower size={18} color="#251FC5" />
         </button>
       </header>
@@ -49,7 +73,7 @@ export default function Books() {
             <button type="button">
               <FiEdit size={20} color="#251FC5" />
             </button>
-            <button type="button">
+            <button type="button" onClick={() => deleteBook(book.id)}>
               <FiTrash2 size={20} color="#251FC5" />
             </button>
           </li>

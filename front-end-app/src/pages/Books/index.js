@@ -3,13 +3,14 @@ import './styles.css';
 import logoImage from '../../assets/logo.svg'
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { FiPower, FiEdit, FiTrash2 } from 'react-icons/fi';
 
 export default function Books() {
 
   const [books, setBooks] = useState([]);
+  const [page, setPage] = useState(1);
   const token = localStorage.getItem('accessToken');
   const userName = localStorage.getItem('username');
   const history = useHistory();
@@ -36,20 +37,26 @@ export default function Books() {
     }
   }
 
-  useEffect(() => {
-    api.get('/book', { headers: {
+  async function fetchMoreBooks() {
+    
+    const response = await api.get('/book', { 
+      headers: {
         'Authorization': `Bearer ${token}`,
-    },
-    params: {
-      page: 1, 
-      size: 4, 
-      direction: 'asc'
-    }
-  }).then(response => {
-        //console.log(response.data);
-        setBooks(response.data._embedded.bookDTOList);
-    }) 
-  });
+      },
+      params: {
+          page: page,
+          size: 4,
+          direction: 'asc'
+      }
+    });
+  
+    setBooks([...books, ...response.data._embedded.bookDTOList]);
+    setPage(page + 1);
+  }
+
+  useEffect(() => {
+    fetchMoreBooks();
+  }, []);
 
   return (
     <div className="book-container">
@@ -82,7 +89,8 @@ export default function Books() {
             </button>
           </li>
         ))}
-      </ul>  
+      </ul>
+      <button className='button' onClick={fetchMoreBooks} type='button'>Load More</button>
     </div>
   );
 }

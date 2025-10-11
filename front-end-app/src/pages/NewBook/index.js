@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../../services/api';
 
 import './styles.css';
@@ -46,11 +46,10 @@ export default function Books() {
         }
     }
         
-    async function createNewBook(e){
+    async function saveOrUpdate(e){
         e.preventDefault();
 
         const token = localStorage.getItem('accessToken');
-        const userName = localStorage.getItem('username');
 
         const data = {
             title,  
@@ -64,11 +63,20 @@ export default function Books() {
         };
 
         try {
-            await api.post('/book', data, { headers: headers });
+            if (bookId === '0') {
+                await api.post('/book', data, { headers: headers });
+            } else {
+                data.id = id;
+                await api.put('/book', data, { headers: headers });
+            }
             history.push('/books');
         } catch (err) {
             alert('Error creating new book, try again.');
         }
+    }
+
+    function getLabel() {
+        return bookId === '0' ? 'Add New Book' : 'Edit Book';
     }
 
     return (
@@ -76,20 +84,20 @@ export default function Books() {
             <div className="content">
                 <section className='form'>
                     <img src={logoImage} alt="Carecao Logo"></img>
-                    <h1>Add New Book</h1>
+                    <h1>{getLabel()}</h1>
                     <p>Fill in the details below to add a new book to the collection.</p>
                     <Link className="back-link" to="/books">
                         <FiArrowLeft size={16} color="#251FC5" />
-                        Home
+                        Back to Books
                     </Link>
                 </section>
-                <form onSubmit={createNewBook}>
+                <form onSubmit={saveOrUpdate}>
                     <input placeholder='Title' value={title} onChange={e => setTitle(e.target.value)}></input>
                     <input placeholder='Author' value={author} onChange={e => setAuthor(e.target.value)}></input>
                     <input type="date" value={launchDate} onChange={e => setLaunchDate(e.target.value)}></input>
                     <input placeholder='Price' value={price} onChange={e => setPrice(e.target.value)}></input>
-                    
-                    <button className='button' type='submit'>Add Book</button>
+
+                    <button className='button' type='submit'>{getLabel()}</button>
                 </form>
             </div>
         </div>

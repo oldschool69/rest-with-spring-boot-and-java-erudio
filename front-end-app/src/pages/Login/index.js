@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import api from '../../services/api';
 
 import './styles.css'
@@ -11,7 +11,7 @@ import padlock from '../../assets/padlock.png'
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
 
     async function login(e){
         e.preventDefault();
@@ -26,7 +26,7 @@ export default function Login() {
             localStorage.setItem('username', username);
             localStorage.setItem('accessToken', response.data.accessToken);
 
-            history.push('/books');
+            navigate('/books');
         }catch(err){
             alert('Login failed, try again.');
         }

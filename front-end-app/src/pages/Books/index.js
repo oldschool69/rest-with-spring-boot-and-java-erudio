@@ -2,7 +2,7 @@ import './styles.css';
 
 import logoImage from '../../assets/logo.svg'
 import { Link } from "react-router-dom";
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { FiPower, FiEdit, FiTrash2 } from 'react-icons/fi';
@@ -10,18 +10,18 @@ import { FiPower, FiEdit, FiTrash2 } from 'react-icons/fi';
 export default function Books() {
 
   const [books, setBooks] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const token = localStorage.getItem('accessToken');
   const userName = localStorage.getItem('username');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   async function logout() {
     localStorage.clear();
-    history.push('/');
+    navigate('/');
   }
 
   async function editBook(id) {
-    history.push(`/book/new/${id}`);
+    navigate(`/book/new/${id}`);
   }
 
   async function deleteBook(id) {

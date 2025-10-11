@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
 
@@ -10,7 +10,7 @@ import logoImage from '../../assets/logo.svg'
 
 
 export default function Books() {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [id, setId] = useState(null);
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
@@ -42,7 +42,7 @@ export default function Books() {
             setLaunchDate(adjustedDate);
         }   catch (err) {
             alert('Error loading book, try again.');
-            history.push('/books');
+            navigate('/books');
         }
     }
         
@@ -69,7 +69,7 @@ export default function Books() {
                 data.id = id;
                 await api.put('/book', data, { headers: headers });
             }
-            history.push('/books');
+            navigate('/books');
         } catch (err) {
             alert('Error creating new book, try again.');
         }
